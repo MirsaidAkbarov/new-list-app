@@ -6,7 +6,7 @@ const todos = [
   { todo: 'Reading books' },
   { todo: 'Play footbal' },
   { todo: 'Watch TV' },
-  { todo: 'Coding' }
+  { todo: 'Coding' },
 ];
 
 const render = () => {
@@ -41,28 +41,23 @@ const render = () => {
             
     }
 
-
-    
-
-    
-
 }
 
+
+render()
+
+const form = document.querySelector(".form")
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const imputValue = e.target.elements.todo.value;
+    const newTodo = { todo: imputValue};
+    todos.unshift(newTodo);
+    console.log(todos);
+    form.reset();
+
     
-
-
-
-add.addEventListener("click", () => {
-    const value = input.value
-    if(value) {
-        todos.unshift({task: value}) 
-        input.value = ""
-    } else {
-        alert("kiriting")
-    }
-    render()
 })
-
 
 
 clear.addEventListener("click", () => {
@@ -76,5 +71,5 @@ clear.addEventListener("click", () => {
 
 
 
-render()
+
 
