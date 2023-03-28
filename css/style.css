@@ -76,8 +76,8 @@ h1, h2, h3, h4, h5, h6 {
 .wrapper {
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
-  background-color: #F5F5F5;
+  background-color: #d7d7e6;
+  background-size: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,6 +97,8 @@ h1 {
   font-size: 56px;
   line-height: 68px;
   color: #000000;
+  margin-bottom: 30px;
+  color: #000000;
 }
 
 .main {
@@ -106,10 +108,12 @@ h1 {
   justify-content: space-between;
   width: 456px;
   height: 434px;
-  background: #FBFBFB;
+  background: #dde6e5;
   padding: 16px;
   border-radius: 12px;
   width: 100%;
+  background-color: #405162;
+  background-size: 100%;
 }
 
 .form {
@@ -127,15 +131,21 @@ h1 {
   padding-left: 23px;
 }
 
+.new__input {
+  box-shadow: 0px 0px 10px 2px red;
+  border: 1px solid red;
+}
+
 .add {
   text-align: center;
   letter-spacing: -0.006em;
   color: #F6F8F9;
   padding: 8px 16px;
-  background: #4094F7;
+  background: #3d757c;
   border-radius: 6px;
   width: 60px;
   height: 40px;
+  position: relative;
 }
 
 .items {
@@ -143,10 +153,18 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 248px;
+  overflow: scroll;
+  align-items: center;
+}
+.items::-webkit-scrollbar {
+  display: none;
 }
 
 .item {
-  width: 100%;
+  margin-top: 3px;
+  width: 95%;
+  height: 38px;
   display: flex;
   padding: 12px 24px;
   justify-content: space-between;
@@ -154,12 +172,20 @@ h1 {
   box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
   border-radius: 8px;
   align-items: center;
+  transition: 0.4s;
+}
+.item:hover {
+  height: 50px;
 }
 
 .buttons {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+img {
+  background-color: #ffffff;
 }
 
 .bxs-pencil {
@@ -176,7 +202,7 @@ h1 {
 
 .footer {
   display: flex;
-  justify-content: end;
+  justify-content: center;
 }
 
 .clear {
@@ -185,5 +211,60 @@ h1 {
   font-size: 14px;
   line-height: 24px;
   letter-spacing: -0.006em;
-  color: #0E73F6;
+  color: #ffffff;
+  background: #405162;
+  margin-top: 15px;
+}
+
+.checkbox {
+  background-color: #0E73F6;
+}
+
+.edit {
+  background-color: black;
+  color: #000000;
+}
+
+.all {
+  margin: 20px 0;
+  margin-left: 25px;
+}
+
+option {
+  font-weight: bold !important;
+  color: #000000 !important;
+  background: #ffffff !important;
+  text-transform: uppercase;
+  border: 1px solid #ffffff !important;
+}
+
+option :hover {
+  color: #007bff !important;
+}
+
+.select {
+  background: white;
+  padding: 10px 30px;
+  border-radius: 7px;
+}
+
+.delete__effect {
+  box-shadow: 0px 0px 7px 1.2px red;
+}
+
+.empty__btn {
+  display: none;
+  width: 30px;
+  height: 40px;
+  font-size: 13px;
+  font-weight: 300;
+  bottom: 0px;
+  left: 80px;
+  padding: 10px;
+  border-radius: 5px;
+  letter-spacing: 1px;
+  position: absolute;
+  color: #000;
+  background: rgb(202, 39, 39);
+  color: #ffffff;
 }

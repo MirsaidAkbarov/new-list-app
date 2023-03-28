@@ -1,126 +1,245 @@
-@import "./all__null.scss";
+    @import "./all__null.scss";
 
 
 
 
 
 
-.wrapper {
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    background-color: #F5F5F5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.container {
+    .wrapper {
+        height: 100vh;
+        width: 100vw;
+        // background-image: url("/images/stock-photo-night-starry-sky-deep-bright.jpeg");
+        background-color: #d7d7e6;
+        background-size: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {}
 
 
-}
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h1 {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 56px;
+        line-height: 68px;
+        color: #000000;
+        margin-bottom: 30px;
+        color: #000000;
+    }
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 456px;
+        height: 434px;
+        background: #dde6e5;
+        padding: 16px;
+        border-radius: 12px;
+        width: 100%;
+        background-color: #405162;
+        // background-image: url("/images/3006330.jpg");
+        background-size: 100%;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .input {
+        width: 320px;
+        height: 40px;
+        background: #FFFFFF;
+        border: 1px solid #E5E9EB;
+        border-radius: 6px;
+        padding-left: 23px;
+    }
+
+    .new__input {
+        box-shadow: 0px 0px 10px 2px red;
+        border: 1px solid red;
+
+    }
+
+    .add {
+        text-align: center;
+        letter-spacing: -0.006em;
+        color: #F6F8F9;
+        padding: 8px 16px;
+        background: #3d757c;
+        border-radius: 6px;
+        width: 60px;
+        height: 40px;
+        position: relative;
+    }
+
+    .items {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 248px;
+        overflow: scroll;
+        align-items: center;
 
 
-.content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-h1 {
-    font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 56px;
-line-height: 68px;
-color: #000000;
 
-}
-.main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    width: 456px;
-height: 434px;
-background: #FBFBFB;
-padding: 16px;
-border-radius: 12px;
-width: 100%; 
-}
-.form {
-    display: flex; 
-    flex-direction: row;
-    gap: 10px;
-}
 
-.input {
-    width: 320px;
-height: 40px;
-background: #FFFFFF;
-border: 1px solid #E5E9EB;
-border-radius: 6px;
-padding-left: 23px;
-}
-.add {
-    text-align: center;
-letter-spacing: -0.006em;
-color: #F6F8F9;
-padding: 8px 16px;
-background: #4094F7;
-border-radius: 6px;
-width: 60px;
-height: 40px;
-}
-.items {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+        &::-webkit-scrollbar {
 
-}
-.item {
-    width: 100%;
-    display: flex;
-    padding: 12px 24px;
-    justify-content: space-between;
-    background: #FFFFFF;
-box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
-border-radius: 8px;
-align-items: center;
-}
-.todo {
-}
-.buttons {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.edit {
-}
-.bx {
-}
-.bx-sm {
-}
-.bxs-pencil {
-    background-color: white;
+            display: none;
+        }
 
-}
-.form {
-    margin-bottom:  10px;
 
-}
-.bx-x {
-    background-color: white;
-}
-.footer {
-    display: flex;
-    justify-content: end;
-}
-.clear {
-    font-family: 'Inter';
-font-weight: 400;
-font-size: 14px;
-line-height: 24px;
-letter-spacing: -0.006em;
-color: #0E73F6;
-}
+
+    }
+
+    .item {
+        margin-top: 3px;
+        width: 95%;
+        height: 38px;
+        display: flex;
+        padding: 12px 24px;
+        justify-content: space-between;
+        background: #FFFFFF;
+        box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        align-items: center;
+
+        transition: 0.4s;
+
+
+        &:hover {
+            // transform: scaleY(1.2);
+            height: 50px;
+        }
+
+    }
+
+
+
+
+    .todo {}
+
+    .buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    img {
+        background-color: #ffffff;
+    }
+
+    .edit {}
+
+    .bx {}
+
+    .bx-sm {}
+
+    .bxs-pencil {
+        background-color: white;
+
+    }
+
+    .form {
+        margin-bottom: 10px;
+
+    }
+
+    .bx-x {
+        background-color: white;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: center;
+    }
+
+    .clear {
+        font-family: 'Inter';
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 24px;
+        letter-spacing: -0.006em;
+        color: #ffffff;
+        background: #405162;
+
+        margin-top: 15px;
+    }
+
+
+    .checkbox {
+        background-color: #0E73F6;
+    }
+
+    .edit {
+        background-color: black;
+        color: #000000;
+    }
+
+    .filter {}
+
+    .all {
+        margin: 20px 0;
+        margin-left: 25px;
+    }
+
+    option {
+        font-weight: bold !important;
+        color: #000000 !important;
+        background: #ffffff !important;
+        text-transform: uppercase;
+        border: 1px solid #ffffff !important;
+    }
+
+    option :hover {
+        color: #007bff !important;
+
+    }
+
+    .select {
+        background: white;
+        padding: 10px 30px;
+        border-radius: 7px
+    }
+
+    .delete__effect {
+        box-shadow: 0px 0px 7px 1.2px red;
+    }
+
+    $pink: rgb(202, 39, 39);
+
+    .empty__btn {
+        display: none;
+        // display: inline-block;
+        width: 30px;
+        height: 40px;
+        font-size: 13px;
+        font-weight: 300;
+        bottom: 0px;
+
+        left: 80px;
+        padding: 10px;
+        border-radius: 5px;
+        letter-spacing: 1px;
+        position: absolute;
+        color: #000;
+        background: $pink;
+        color: #ffffff;
+
+
+    }
