@@ -131,61 +131,64 @@ const render = () => {
 
             dropIndex = null;
         });
+        const list = document.getElementsByClassName("item");
+        let dragIndex, dropIndex;
 
-        item.addEventListener("touchstart", (e) => {
-            const currentId = e.target.closest(".item").id;
-            dragIndex = todos.findIndex((v) => v.id == currentId);
+        for (let item of list) {
+            item.addEventListener("touchstart", (e) => {
+                const currentId = e.target.closest(".item").id;
+                dragIndex = Array.from(list).findIndex((v) => v.id === currentId);
 
-            const style = e.target.closest(".item").style;
-            style.opacity = 0.5;
-            style.border = "2px solid #3498db";
-            style.backgroundColor = "#f1f1f1";
-            style.transform = "scale(1.05)";
-        });
-
-        item.addEventListener("touchmove", (e) => {
-            e.preventDefault();
-            const touchY = e.changedTouches[0].clientY;
-            const elements = document.elementsFromPoint(
-                e.changedTouches[0].clientX,
-                touchY
-            );
-
-            elements.forEach((element) => {
-                if (element.classList.contains("item")) {
-                    const style = element.style;
-                    style.borderBottom = "2px solid #3498db";
-                    style.transform = "scale(1.05)";
-                    dropIndex = [...list].indexOf(element);
-                }
+                const style = e.target.closest(".item").style;
+                style.opacity = 0.5;
+                style.border = "2px solid #3498db";
+                style.backgroundColor = "#f1f1f1";
+                style.transform = "scale(1.05)";
             });
 
-            const style = e.target.closest(".item").style;
-            style.transform = "translateY(" + (touchY - 50) + "px)";
-        });
+            item.addEventListener("touchmove", (e) => {
+                e.preventDefault();
+                const touchY = e.changedTouches[0].clientY;
+                const elements = document.elementsFromPoint(
+                    e.changedTouches[0].clientX,
+                    touchY
+                );
 
-        item.addEventListener("touchend", (e) => {
-            e.preventDefault();
-            const style = e.target.closest(".item").style;
-            style.opacity = 1;
-            style.border = "1px solid #ccc";
-            style.backgroundColor = "#fff";
-            style.transform = "none";
+                elements.forEach((element) => {
+                    if (element.classList.contains("item")) {
+                        const style = element.style;
+                        style.borderBottom = "2px solid #3498db";
+                        style.transform = "scale(1.05)";
+                        dropIndex = Array.from(list).indexOf(element);
+                    }
+                });
 
-            if (dragIndex !== null && dropIndex !== null) {
-                let a = todos.splice(dragIndex, 1);
-                todos.splice(dropIndex, 0, a[0]);
-                render();
-            }
+                const style = e.target.closest(".item").style;
+                style.transform = "translateY(" + (touchY - 50) + "px)";
+            });
 
-            dropIndex = null;
-        });
-    });
-};
+            item.addEventListener("touchend", (e) => {
+                e.preventDefault();
+                const style = e.target.closest(".item").style;
+                style.opacity = 1;
+                style.border = "1px solid #ccc";
+                style.backgroundColor = "#fff";
+                style.transform = "none";
+
+                if (dragIndex !== null && dropIndex !== null) {
+                    let a = Array.from(list).splice(dragIndex, 1);
+                    Array.from(list).splice(dropIndex, 0, a[0]);
+                }
+
+                dragIndex = null;
+                dropIndex = null;
+            });
+        }
+    })
 
 
 
-
+}
 
 render();
 
