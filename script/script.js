@@ -91,80 +91,86 @@ const render = () => {
       `;
     });
 
+    const list = document.getElementsByClassName("item");
 
-    const list = document.querySelectorAll(".item");
-
-    list.forEach((item, index) => {
+    for (let item of list) {
         item.addEventListener("dragstart", (e) => {
-            const currentId = e.target.closest(".item").id;
+            const currentId = e.target.closest(".item")?.id;
             dragIndex = todos.findIndex((v) => v.id == currentId);
-            e.target.closest(".item").style.cssText =
-                "opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);";
+            e.target.closest(".item").style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
+
+            console.log("start", currentId);
         });
 
         item.addEventListener("dragend", (e) => {
             e.preventDefault();
-            e.target.closest(".item").style.cssText =
-                "opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);";
+            e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
         });
 
         item.addEventListener("dragover", (e) => {
             e.preventDefault();
-            e.target.closest(".item").style.cssText =
-                "border-bottom:2px solid #3498db;transform: scale(1.05);";
-            dropIndex = index;
+            e.target.closest(".item").style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
         });
 
         item.addEventListener("dragleave", (e) => {
-            e.target.closest(".item").style.cssText =
-                "border-bottom:1px solid #ccc;transform: scale(1);";
-            dropIndex = null;
+            console.log("leave");
+            e.target.closest(".item").style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
         });
 
         item.addEventListener("drop", (e) => {
             e.preventDefault();
-            if (dragIndex !== null && dropIndex !== null) {
-                let a = todos.splice(dragIndex, 1);
-                todos.splice(dropIndex, 0, a[0]);
-                render();
-            }
+            const currentId = e.target.closest(".item")?.id;
+            const dropIndex = todos.findIndex((v) => v.id == currentId);
 
-            dropIndex = null;
+            let a = todos.splice(dragIndex, 1);
+            todos.splice(dropIndex, 0, a[0]);
+
+            render();
         });
-        const list = document.getElementsByClassName("item");
-        let dragIndex, dropIndex;
+
+
+
+        let prevY = null;
+
 
         for (let item of list) {
             item.addEventListener("touchstart", (e) => {
                 const currentId = e.target.closest(".item").id;
-                dragIndex = Array.from(list).findIndex((v) => v.id === currentId);
+                dragIndex = todos.findIndex((v) => v.id == currentId);
 
                 const style = e.target.closest(".item").style;
                 style.opacity = 0.5;
                 style.border = "2px solid #3498db";
                 style.backgroundColor = "#f1f1f1";
                 style.transform = "scale(1.05)";
+
+                const touchY = e.changedTouches[0].clientY;
+                prevY = touchY;
             });
 
             item.addEventListener("touchmove", (e) => {
                 e.preventDefault();
                 const touchY = e.changedTouches[0].clientY;
-                const elements = document.elementsFromPoint(
-                    e.changedTouches[0].clientX,
-                    touchY
-                );
 
+                if (prevY !== null) {
+                    const deltaY = touchY - prevY;
+                    const transformValue = e.target.closest(".item").style.transform.replace(/translateY\((.*?)px\)/, '');
+                    const currentY = transformValue === '' ? 0 : parseInt(transformValue);
+                    const newY = currentY + deltaY;
+                    const style = e.target.closest(".item").style;
+                    style.transform = "translateY(" + newY + "px)";
+                }
+                prevY = touchY;
+
+                const elements = document.elementsFromPoint(e.changedTouches[0].clientX, touchY);
                 elements.forEach((element) => {
                     if (element.classList.contains("item")) {
                         const style = element.style;
                         style.borderBottom = "2px solid #3498db";
                         style.transform = "scale(1.05)";
-                        dropIndex = Array.from(list).indexOf(element);
+                        dropIndex = [...list].indexOf(element);
                     }
                 });
-
-                const style = e.target.closest(".item").style;
-                style.transform = "translateY(" + (touchY - 50) + "px)";
             });
 
             item.addEventListener("touchend", (e) => {
@@ -176,19 +182,22 @@ const render = () => {
                 style.transform = "none";
 
                 if (dragIndex !== null && dropIndex !== null) {
-                    let a = Array.from(list).splice(dragIndex, 1);
-                    Array.from(list).splice(dropIndex, 0, a[0]);
+                    let a = todos.splice(dragIndex, 1);
+                    todos.splice(dropIndex, 0, a[0]);
+                    render();
                 }
 
-                dragIndex = null;
                 dropIndex = null;
+                prevY = null;
             });
         }
-    })
 
+    }
 
 
 }
+
+
 
 render();
 
