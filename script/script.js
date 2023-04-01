@@ -129,9 +129,10 @@ const render = () => {
         });
 
 
-
+        const list = document.getElementsByClassName("item");
         let dragIndex = null;
         let dropIndex = null;
+        let prevY = null;
 
         for (let item of list) {
             item.addEventListener("touchstart", (e) => {
@@ -139,10 +140,6 @@ const render = () => {
                 dragIndex = [...list].findIndex((element) => element.id === currentId);
 
                 const style = e.target.closest(".item").style;
-                style.opacity = 0.5;
-                style.border = "2px solid #3498db";
-                style.backgroundColor = "#f1f1f1";
-                style.transform = "scale(1.05)";
 
                 const touchY = e.changedTouches[0].clientY;
                 prevY = touchY;
@@ -165,26 +162,33 @@ const render = () => {
                 }
                 prevY = touchY;
 
-                const elements = document.elementsFromPoint(
-                    e.changedTouches[0].clientX,
-                    touchY
-                );
-                elements.forEach((element) => {
-                    if (element.classList.contains("item")) {
-                        const style = element.style;
-                        style.borderBottom = "2px solid #3498db";
-                        style.transform = "scale(1.05)";
-                        dropIndex = [...list].indexOf(element);
+                let index = -1;
+                let smallestDistance = Infinity;
+                for (let i = 0; i < list.length; i++) {
+                    const item = list[i];
+                    if (item === e.target.closest(".item")) continue;
+
+                    const itemCenterY = item.offsetTop + item.offsetHeight / 2;
+                    const distanceToCenter = Math.abs(itemCenterY - e.changedTouches[0].clientY);
+
+                    if (distanceToCenter < smallestDistance) {
+                        smallestDistance = distanceToCenter;
+                        index = i;
                     }
-                });
+                }
+
+                if (index !== -1) {
+                    const style = list[index].style;
+                    dropIndex = index;
+
+                    style.transform = "translateY(" + (prevY < touchY ? "+60px" : "-60px") + ")";
+                }
             });
 
             item.addEventListener("touchend", (e) => {
                 e.preventDefault();
                 const style = e.target.closest(".item").style;
-                style.opacity = 1;
-                style.border = "1px solid #ccc";
-                style.backgroundColor = "#fff";
+
                 style.transform = "none";
 
                 if (dragIndex !== null && dropIndex !== null) {
@@ -204,11 +208,9 @@ const render = () => {
                 prevY = null;
             });
         }
+
     }
-
-
 }
-
 
 
 render();
