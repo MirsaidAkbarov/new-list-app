@@ -172,17 +172,12 @@ form.addEventListener("submit", (e) => {
         const inp = document.querySelector('input');
         inp.classList.add('new__input');
         dNone.style.display = 'inline-block';
-        navigator.vibrate([1000]);
+        navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
         setTimeout(() => {
             dNone.style.display = 'none';
             inp.classList.remove('new__input');
         }, 1000);
     }
-});
-
-// Add event listener to button "sos"
-sos.addEventListener("click", function (event) {
-    navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
 });
 
 
