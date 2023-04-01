@@ -221,6 +221,8 @@ items.addEventListener("click", (e) => {
 
     if (e.target.closest(".delete-")) {
         currentItem.classList.add('delete__effect')
+
+        navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
     }
 
 
@@ -257,6 +259,9 @@ items.addEventListener("click", (e) => {
             }, 100);
         });
     }
+
+
+
     if (e.target.closest(".save")) {
 
         saveButton.style.display = "none";
