@@ -151,7 +151,7 @@ h1 {
   font-size: 20px;
   font-weight: 500;
   opacity: 0.7;
-  width: 80%;
+  width: 78%;
   height: 40px;
   background: #FFFFFF;
   border: 1px solid #E5E9EB;
@@ -170,7 +170,7 @@ h1 {
   padding: 8px 16px;
   background: #85573c;
   border-radius: 6px;
-  width: 15%;
+  width: 19%;
   height: 40px;
   position: relative;
   box-shadow: -1px 0px 20px rgba(0, 0, 0, 0.6);
@@ -279,7 +279,6 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
 .all {
@@ -572,5 +571,16 @@ option :hover {
     background-color: #fff;
     border-radius: 5px;
     font-variation-settings: "FILL" 0, "wght" 250, "GRAD" 0, "opsz" 20;
+  }
+  .all {
+    margin: 10px 0;
+    margin-left: 10px;
+    color: rgb(0, 0, 0);
+    font-family: "Indie Flower", cursive;
+    font-weight: 500;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
