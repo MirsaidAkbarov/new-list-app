@@ -128,36 +128,58 @@ const render = () => {
             render();
         });
 
-        item.addEventListener("touchstart", (e) => {
-            const currentId = e.target.closest(".item")?.id;
-            dragIndex = todos.findIndex((v) => v.id == currentId);
-            e.target.closest(".item").style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
+    }
 
-            console.log("touchstart", currentId);
-        }, { passive: false });
+    for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        let dragged = false;
+        let startX, startY, diffX, diffY;
 
-        item.addEventListener("touchend", (e) => {
-            e.preventDefault();
-            e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
-            const currentId = e.target.closest(".item")?.id;
-            const dropIndex = todos.findIndex((v) => v.id == currentId);
+        item.addEventListener("touchstart", function (event) {
+            const touch = event.touches[0];
+            startX = touch.pageX;
+            startY = touch.pageY;
+        });
 
-            let a = todos.splice(dragIndex, 1);
-            todos.splice(dropIndex, 0, a[0]);
-        }, { passive: false });
+        item.addEventListener("touchmove", function (event) {
+            const touch = event.touches[0];
+            dragged = true;
 
-        item.addEventListener("touchmove", (e) => {
-            e.preventDefault();
-            e.target.style.cssText = `position: absolute; top: ${e.touches[0].clientY}px; left: ${e.touches[0].clientX}px; transform: scale(1.05);`;
-        }, { passive: false });
+            diffX = startX - touch.pageX;
+            diffY = startY - touch.pageY;
+            item.style.transform = `translate(${diffX}px, ${diffY}px)`;
+        });
 
-        item.addEventListener("touchcancel", (e) => {
-            console.log("touchcancel");
-            e.target.closest(".item").style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
-        }, { passive: false });
+        item.addEventListener("touchend", function () {
+            if (dragged) {
+                item.style.transform = "";
+                dragged = false;
+
+                // Swap the position of the items if close enough
+                for (let j = 0; j < list.length; j++) {
+                    if (i !== j) {
+                        const other = list[j];
+                        const rect = item.getBoundingClientRect();
+                        const otherRect = other.getBoundingClientRect();
+
+                        if (
+                            rect.bottom >= otherRect.top &&
+                            rect.top <= otherRect.bottom &&
+                            rect.right >= otherRect.left &&
+                            rect.left <= otherRect.right
+                        ) {
+                            if (i < j) {
+                                items.insertBefore(other, item.nextSibling);
+                            } else {
+                                items.insertBefore(item, other.nextSibling);
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 }
-
 
 
 
