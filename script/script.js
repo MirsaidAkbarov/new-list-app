@@ -39,8 +39,6 @@ const render = () => {
     filterByStatus(currentStatus).forEach((v, i) => {
 
 
-
-
         const checkbox = v.isDone
             ? `<input checked type="checkbox" class="checkbox" />`
             : `<input type="checkbox" class="checkbox" />`;
@@ -92,89 +90,70 @@ const render = () => {
         </li>
       `;
     });
+
     const list = document.getElementsByClassName("item");
 
     for (let item of list) {
-        item.addEventListener("dragstart", dragStart);
-        item.addEventListener("dragend", dragEnd);
-        item.addEventListener("dragover", dragOver);
-        item.addEventListener("dragleave", dragLeave);
-        item.addEventListener("drop", drop);
+        item.addEventListener("dragstart", (e) => {
+            const currentId = e.target.closest(".item")?.id;
+            dragIndex = todos.findIndex((v) => v.id == currentId);
+            e.target.closest(".item").style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
 
-        item.addEventListener("touchstart", touchStart);
-        item.addEventListener("touchend", touchEnd);
-        item.addEventListener("touchmove", touchMove);
-        item.addEventListener("touchcancel", touchCancel);
-    }
+            console.log("start", currentId);
+        });
 
-    function dragStart(e) {
-        const currentId = e.target.closest(".item")?.id;
-        dragIndex = todos.findIndex((v) => v.id == currentId);
-        e.target.closest(
-            ".item"
-        ).style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
-    }
+        item.addEventListener("dragend", (e) => {
+            e.preventDefault();
+            e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
+        });
 
-    function dragEnd(e) {
-        e.preventDefault();
-        e.target.closest(
-            ".item"
-        ).style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
-    }
+        item.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            e.target.closest(".item").style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
+        });
 
-    function dragOver(e) {
-        e.preventDefault();
-        e.target.closest(
-            ".item"
-        ).style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
-    }
+        item.addEventListener("dragleave", (e) => {
+            console.log("leave");
+            e.target.closest(".item").style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
+        });
 
-    function dragLeave(e) {
-        e.target.closest(
-            ".item"
-        ).style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
-    }
+        item.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const currentId = e.target.closest(".item")?.id;
+            const dropIndex = todos.findIndex((v) => v.id == currentId);
 
-    function drop(e) {
-        e.preventDefault();
-        const currentId = e.target.closest(".item")?.id;
-        const dropIndex = todos.findIndex((v) => v.id == currentId);
+            let a = todos.splice(dragIndex, 1);
+            todos.splice(dropIndex, 0, a[0]);
 
-        let a = todos.splice(dragIndex, 1);
-        todos.splice(dropIndex, 0, a[0]);
+            render();
+        });
 
-        render();
-    }
+        // Mobile touch events
+        item.addEventListener("touchstart", (e) => {
+            const currentId = e.target.closest(".item")?.id;
+            dragIndex = todos.findIndex((v) => v.id == currentId);
+            e.target.closest(".item").style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
 
-    function touchStart(e) {
-        const currentId = e.target.closest(".item")?.id;
-        dragIndex = todos.findIndex((v) => v.id == currentId);
-        e.target.closest(
-            ".item"
-        ).style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
-    }
+            console.log("touchstart", currentId);
+        }, { passive: false });
 
-    function touchEnd(e) {
-        e.preventDefault();
-        e.target.closest(
-            ".item"
-        ).style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
-    }
+        item.addEventListener("touchend", (e) => {
+            e.preventDefault();
+            e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
+        }, { passive: false });
 
-    function touchMove(e) {
-        e.preventDefault();
-        e.target.closest(
-            ".item"
-        ).style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
-    }
+        item.addEventListener("touchmove", (e) => {
+            e.preventDefault();
+            e.target.style.cssText = `position: absolute; top: ${e.touches[0].clientY}px; left: ${e.touches[0].clientX}px; transform: scale(1.05);`;
+        }, { passive: false });
 
-    function touchCancel(e) {
-        console.log("leave");
-        e.target.closest(
-            ".item"
-        ).style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
+        item.addEventListener("touchcancel", (e) => {
+            console.log("touchcancel");
+            e.target.closest(".item").style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
+        }, { passive: false });
     }
 }
+
 
 
 
