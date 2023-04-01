@@ -159,31 +159,31 @@ form.addEventListener("submit", (e) => {
     e.preventDefault();
     const inputValue = e.target.elements.todo.value;
 
-
     if (inputValue) {
-
-
         const newTodo = {
             id: "s" + new Date().getTime(),
             todo: inputValue
         };
         todos.unshift(newTodo);
         form.reset();
-        render()
-
+        render();
     } else {
-        const dNone = document.querySelector('.empty__btn')
-        const inp = document.querySelector('input')
-        inp.classList.add('new__input')
-        dNone.style.cssText = `display: inline-block; 
-            `
+        const dNone = document.querySelector('.empty__btn');
+        const inp = document.querySelector('input');
+        inp.classList.add('new__input');
+        dNone.style.display = 'inline-block';
+        navigator.vibrate([1000]);
         setTimeout(() => {
-            dNone.style.cssText = `display: none
-            `
-            inp.classList.remove('new__input')
-        }, 400)
+            dNone.style.display = 'none';
+            inp.classList.remove('new__input');
+        }, 1000);
     }
-})
+});
+
+// Add event listener to button "sos"
+sos.addEventListener("click", function (event) {
+    navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
+});
 
 
 clear.addEventListener("click", () => {
@@ -222,7 +222,6 @@ items.addEventListener("click", (e) => {
     if (e.target.closest(".delete-")) {
         currentItem.classList.add('delete__effect')
 
-        navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
     }
 
 
