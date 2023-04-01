@@ -130,13 +130,13 @@ const render = () => {
 
 
 
-        let prevY = null;
-
+        let dragIndex = null;
+        let dropIndex = null;
 
         for (let item of list) {
             item.addEventListener("touchstart", (e) => {
                 const currentId = e.target.closest(".item").id;
-                dragIndex = todos.findIndex((v) => v.id == currentId);
+                dragIndex = [...list].findIndex((element) => element.id === currentId);
 
                 const style = e.target.closest(".item").style;
                 style.opacity = 0.5;
@@ -154,15 +154,21 @@ const render = () => {
 
                 if (prevY !== null) {
                     const deltaY = touchY - prevY;
-                    const transformValue = e.target.closest(".item").style.transform.replace(/translateY\((.*?)px\)/, '');
-                    const currentY = transformValue === '' ? 0 : parseInt(transformValue);
+                    const transformValue = e.target.closest(".item").style.transform.replace(
+                        /translateY\((.*?)px\)/,
+                        ""
+                    );
+                    const currentY = transformValue === "" ? 0 : parseInt(transformValue);
                     const newY = currentY + deltaY;
                     const style = e.target.closest(".item").style;
                     style.transform = "translateY(" + newY + "px)";
                 }
                 prevY = touchY;
 
-                const elements = document.elementsFromPoint(e.changedTouches[0].clientX, touchY);
+                const elements = document.elementsFromPoint(
+                    e.changedTouches[0].clientX,
+                    touchY
+                );
                 elements.forEach((element) => {
                     if (element.classList.contains("item")) {
                         const style = element.style;
@@ -182,16 +188,22 @@ const render = () => {
                 style.transform = "none";
 
                 if (dragIndex !== null && dropIndex !== null) {
-                    let a = todos.splice(dragIndex, 1);
-                    todos.splice(dropIndex, 0, a[0]);
-                    render();
+                    const listArray = [...list];
+                    const dragItem = listArray[dragIndex];
+                    const dropItem = listArray[dropIndex];
+                    listArray[dragIndex] = dropItem;
+                    listArray[dropIndex] = dragItem;
+
+                    const parent = dropItem.parentNode;
+                    const nextSibling = dropItem.nextSibling;
+
+                    parent.insertBefore(dragItem, nextSibling);
                 }
 
                 dropIndex = null;
                 prevY = null;
             });
         }
-
     }
 
 
