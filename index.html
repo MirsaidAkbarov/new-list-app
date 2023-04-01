@@ -34,38 +34,40 @@
                     <header>
                         <h1>Your Reminder</h1>
                     </header>
-                    <main class="main">
+                    <div class="all__main">
+                        <main class="main">
 
 
-                        <div class="center">
-                            <form class="form">
-                                <input name="todo" placeholder="Write anything ..." class="input " type="text" />
+                            <div class="center">
+                                <form class="form">
+                                    <input name="todo" placeholder="Write anything ..." class="input " type="text" />
 
-                                <button type="submit" class="add"><span class="empty__btn">!</span>
-                                    Add</button>
+                                    <button type="submit" class="add"><span class="empty__btn">!</span>
+                                        Add</button>
 
-                            </form>
+                                </form>
 
-                            <div class="filter">
-                                <div class="all">
-                                    Filter by status:
-                                    <select class="select" name="status">
-                                        <option value="all">All</option>
-                                        <option value="completed">Completed</option>
-                                        <option value="proccess">Proccess</option>
-                                    </select>
+                                <div class="filter">
+                                    <div class="all">
+                                        Filter by status:
+                                        <select class="select" name="status">
+                                            <option value="all">All</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="proccess">Proccess</option>
+                                        </select>
 
+
+                                    </div>
+                                    <ul class="items">
+
+                                    </ul>
 
                                 </div>
-                                <ul class="items">
-
-                                </ul>
-
-                            </div>
-                            <footer class="footer">
-                                <button class="clear"> Clear all</button>
-                            </footer>
-                    </main>
+                                <footer class="footer">
+                                    <button class="clear"> Clear all</button>
+                                </footer>
+                        </main>
+                    </div>
                 </div>
             </div>
         </div>

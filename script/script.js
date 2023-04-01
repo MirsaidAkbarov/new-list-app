@@ -254,7 +254,7 @@ items.addEventListener("click", (e) => {
                 editButton.style.display = "block";
                 console.log('blur');
                 render()
-            }, 500);
+            }, 100);
         });
     }
     if (e.target.closest(".save")) {
