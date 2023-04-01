@@ -128,58 +128,40 @@ const render = () => {
             render();
         });
 
-    }
 
-    for (let i = 0; i < list.length; i++) {
-        const item = list[i];
-        let dragged = false;
-        let startX, startY, diffX, diffY;
-
-        item.addEventListener("touchstart", function (event) {
-            const touch = event.touches[0];
-            startX = touch.pageX;
-            startY = touch.pageY;
+        item.addEventListener("touchstart", (e) => {
+            const currentId = e.target.closest(".item")?.id;
+            dragIndex = todos.findIndex((v) => v.id == currentId);
+            e.target.closest(".item").classList.add("dragging");
         });
 
-        item.addEventListener("touchmove", function (event) {
-            const touch = event.touches[0];
-            dragged = true;
-
-            diffX = startX - touch.pageX;
-            diffY = startY - touch.pageY;
-            item.style.transform = `translate(${diffX}px, ${diffY}px)`;
-        });
-
-        item.addEventListener("touchend", function () {
-            if (dragged) {
-                item.style.transform = "";
-                dragged = false;
-
-                // Swap the position of the items if close enough
-                for (let j = 0; j < list.length; j++) {
-                    if (i !== j) {
-                        const other = list[j];
-                        const rect = item.getBoundingClientRect();
-                        const otherRect = other.getBoundingClientRect();
-
-                        if (
-                            rect.bottom >= otherRect.top &&
-                            rect.top <= otherRect.bottom &&
-                            rect.right >= otherRect.left &&
-                            rect.left <= otherRect.right
-                        ) {
-                            if (i < j) {
-                                items.insertBefore(other, item.nextSibling);
-                            } else {
-                                items.insertBefore(item, other.nextSibling);
-                            }
-                        }
-                    }
-                }
+        item.addEventListener("touchmove", (e) => {
+            e.preventDefault();
+            const pageY = e.changedTouches[0].pageY;
+            const itemHeight = e.target.closest(".item").offsetHeight;
+            const itemY = pageY - itemHeight / 2;
+            e.target.closest(".item").style.transform = `translateY(${itemY}px)`;
+            const listY = items.getBoundingClientRect().top + window.scrollY;
+            if (pageY < listY) {
+                items.scrollTop -= itemHeight;
+            } else if (pageY > listY + items.offsetHeight) {
+                items.scrollTop += itemHeight;
             }
         });
+
+        item.addEventListener("touchend", (e) => {
+            e.preventDefault();
+            const currentId = e.target.closest(".item")?.id;
+            const dropIndex = todos.findIndex((v) => v.id == currentId);
+            if (dragIndex !== dropIndex) {
+                todos.splice(dropIndex, 0, todos.splice(dragIndex, 1)[0]);
+                render();
+            }
+            e.target.closest(".item").classList.remove("dragging");
+            e.target.closest(".item").style.transform = "";
+        });
     }
-}
+};
 
 
 
