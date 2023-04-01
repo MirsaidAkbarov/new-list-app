@@ -92,37 +92,61 @@ const render = () => {
         </li>
       `;
     });
-    const list = document.querySelectorAll(".item");
-
-    let touchstart;
-    let touchend;
+    const list = document.getElementsByClassName("item");
 
     for (let item of list) {
+        // Add touch event listeners in addition to mouse event listeners for drag and drop
+        item.addEventListener("touchstart", (e) => {
+            const currentId = e.target.closest(".item")?.id;
+            dragIndex = todos.findIndex((v) => v.id == currentId);
+            e.target.closest(
+                ".item"
+            ).style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
+
+            console.log("start", currentId);
+        });
+
+        item.addEventListener("touchend", (e) => {
+            e.preventDefault();
+            e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
+        });
+
+        item.addEventListener("touchmove", (e) => {
+            e.preventDefault();
+            var touchLocation = e.targetTouches[0];
+            // Update the left and top position of the item to match the location of the touch
+            e.target.closest(".item").style.left = touchLocation.pageX + "px";
+            e.target.closest(".item").style.top = touchLocation.pageY + "px";
+            console.log("move");
+        });
+
         item.addEventListener("dragstart", (e) => {
             const currentId = e.target.closest(".item")?.id;
             dragIndex = todos.findIndex((v) => v.id == currentId);
-            e.target.closest(".item").style.cssText =
-                "opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);";
+            e.target.closest(
+                ".item"
+            ).style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
 
             console.log("start", currentId);
         });
 
         item.addEventListener("dragend", (e) => {
             e.preventDefault();
-            e.target.closest(".item").style.cssText =
-                "opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);";
+            e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
         });
 
         item.addEventListener("dragover", (e) => {
             e.preventDefault();
-            e.target.closest(".item").style.cssText =
-                "border-bottom:2px solid #3498db;transform: scale(1.05);";
+            e.target.closest(
+                ".item"
+            ).style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
         });
 
         item.addEventListener("dragleave", (e) => {
             console.log("leave");
-            e.target.closest(".item").style.cssText =
-                "border-bottom:1px solid #ccc;transform: scale(1);";
+            e.target.closest(
+                ".item"
+            ).style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
         });
 
         item.addEventListener("drop", (e) => {
@@ -133,49 +157,12 @@ const render = () => {
             let a = todos.splice(dragIndex, 1);
             todos.splice(dropIndex, 0, a[0]);
 
-            // const temp = todos[dragIndex];
-            // todos[dragIndex] = todos[dropIndex];
-            // todos[dropIndex] = temp;
-
             render();
         });
-
-
-        // Add touch events for mobile devices
-        item.addEventListener('touchstart', (e) => {
-            touchstart = e.changedTouches[0].screenY;
-        });
-
-        item.addEventListener('touchend', (e) => {
-            touchend = e.changedTouches[0].screenY;
-            handleGesture();
-        });
-
-        function handleGesture() {
-            const swipedistance = touchend - touchstart;
-            const absSwipedistance = Math.abs(swipedistance);
-
-            if (swipedistance < 0 && absSwipedistance > 40) {
-                //Swiped upwards
-                const currentId = e.target.closest(".item")?.id;
-                dragIndex = todos.findIndex((v) => v.id == currentId);
-
-                let a = todos.splice(dragIndex, 1);
-                todos.splice(dragIndex - 1, 0, a[0]);
-
-                render();
-            } else if (swipedistance > 0 && absSwipedistance > 40) {
-                //Swiped downwards
-                const currentId = e.target.closest(".item")?.id;
-                dragIndex = todos.findIndex((v) => v.id == currentId);
-
-                let a = todos.splice(dragIndex, 1);
-                todos.splice(dragIndex + 1, 0, a[0]);
-
-                render();
-            }
-        }
     }
+
+    // Declare variable "b"
+    var b = 0;
 }
 
 
