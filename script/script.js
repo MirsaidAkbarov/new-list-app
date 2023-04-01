@@ -128,7 +128,6 @@ const render = () => {
             render();
         });
 
-        // Mobile touch events
         item.addEventListener("touchstart", (e) => {
             const currentId = e.target.closest(".item")?.id;
             dragIndex = todos.findIndex((v) => v.id == currentId);
@@ -140,6 +139,11 @@ const render = () => {
         item.addEventListener("touchend", (e) => {
             e.preventDefault();
             e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
+            const currentId = e.target.closest(".item")?.id;
+            const dropIndex = todos.findIndex((v) => v.id == currentId);
+
+            let a = todos.splice(dragIndex, 1);
+            todos.splice(dropIndex, 0, a[0]);
         }, { passive: false });
 
         item.addEventListener("touchmove", (e) => {
