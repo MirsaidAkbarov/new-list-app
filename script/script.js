@@ -101,10 +101,10 @@ const render = () => {
         item.addEventListener("dragleave", dragLeave);
         item.addEventListener("drop", drop);
 
-        item.addEventListener("touchstart", dragStart);
-        item.addEventListener("touchend", dragEnd);
-        item.addEventListener("touchmove", dragOver);
-        item.addEventListener("touchcancel", dragLeave);
+        item.addEventListener("touchstart", touchStart);
+        item.addEventListener("touchend", touchEnd);
+        item.addEventListener("touchmove", touchMove);
+        item.addEventListener("touchcancel", touchCancel);
     }
 
     function dragStart(e) {
@@ -113,8 +113,6 @@ const render = () => {
         e.target.closest(
             ".item"
         ).style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
-
-        console.log("start", currentId);
     }
 
     function dragEnd(e) {
@@ -132,7 +130,6 @@ const render = () => {
     }
 
     function dragLeave(e) {
-        console.log("leave");
         e.target.closest(
             ".item"
         ).style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
@@ -146,11 +143,36 @@ const render = () => {
         let a = todos.splice(dragIndex, 1);
         todos.splice(dropIndex, 0, a[0]);
 
-        // const temp = todos[dragIndex];
-        // todos[dragIndex] = todos[dropIndex];
-        // todos[dropIndex] = temp;
-
         render();
+    }
+
+    function touchStart(e) {
+        const currentId = e.target.closest(".item")?.id;
+        dragIndex = todos.findIndex((v) => v.id == currentId);
+        e.target.closest(
+            ".item"
+        ).style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
+    }
+
+    function touchEnd(e) {
+        e.preventDefault();
+        e.target.closest(
+            ".item"
+        ).style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
+    }
+
+    function touchMove(e) {
+        e.preventDefault();
+        e.target.closest(
+            ".item"
+        ).style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
+    }
+
+    function touchCancel(e) {
+        console.log("leave");
+        e.target.closest(
+            ".item"
+        ).style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
     }
 }
 
