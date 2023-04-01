@@ -130,39 +130,35 @@ const render = () => {
 
 
 
-        const list = document.querySelectorAll('.item');
+        const list = document.getElementsByClassName("item");
         let dragIndex = null;
         let dropIndex = null;
-        let prevY = null;
 
         for (let item of list) {
-            item.addEventListener('touchstart', (e) => {
-                const currentId = e.target.closest('.item').id;
+            item.addEventListener("touchstart", (e) => {
+                const currentId = e.target.closest(".item").id;
                 dragIndex = [...list].findIndex((element) => element.id === currentId);
+
+                const style = e.target.closest(".item").style;
 
                 const touchY = e.changedTouches[0].clientY;
                 prevY = touchY;
             });
 
-            item.addEventListener('touchmove', (e) => {
+            item.addEventListener("touchmove", (e) => {
                 e.preventDefault();
-
-                if (e.target.tagName === 'BUTTON') {
-                    return; // Skip the drag and drop functionality for buttons
-                }
-
                 const touchY = e.changedTouches[0].clientY;
 
-                if (prevY !== null) {
+                if (prevY !== null && e.target.matches(".item")) {
                     const deltaY = touchY - prevY;
-                    const transformValue = e.target.closest('.item').style.transform.replace(
+                    const transformValue = e.target.closest(".item").style.transform.replace(
                         /translateY\((.*?)px\)/,
-                        ''
+                        ""
                     );
-                    const currentY = transformValue === '' ? 0 : parseInt(transformValue);
+                    const currentY = transformValue === "" ? 0 : parseInt(transformValue);
                     const newY = currentY + deltaY;
-                    const style = e.target.closest('.item').style;
-                    style.transform = 'translateY(' + newY + 'px)';
+                    const style = e.target.closest(".item").style;
+                    style.transform = "translateY(" + newY + "px)";
                 }
                 prevY = touchY;
 
@@ -171,22 +167,18 @@ const render = () => {
                     touchY
                 );
                 elements.forEach((element) => {
-                    if (element.classList.contains('item')) {
+                    if (element.matches(".item")) {
+                        const style = element.style;
                         dropIndex = [...list].indexOf(element);
                     }
                 });
             });
 
-            item.addEventListener('touchend', (e) => {
+            item.addEventListener("touchend", (e) => {
                 e.preventDefault();
+                const style = e.target.closest(".item").style;
 
-                if (e.target.tagName === 'BUTTON') {
-                    return; // Skip the drag and drop functionality for buttons
-                }
-
-                const style = e.target.closest('.item').style;
-
-                style.transform = 'none';
+                style.transform = "none";
 
                 if (dragIndex !== null && dropIndex !== null) {
                     const listArray = [...list];
@@ -205,12 +197,8 @@ const render = () => {
                 prevY = null;
             });
         }
-
-
-
     }
 }
-
 
 render();
 
