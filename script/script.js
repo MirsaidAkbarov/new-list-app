@@ -172,7 +172,7 @@ form.addEventListener("submit", (e) => {
         const inp = document.querySelector('input');
         inp.classList.add('new__input');
         dNone.style.display = 'inline-block';
-        navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
+        navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200]);
         setTimeout(() => {
             dNone.style.display = 'none';
             inp.classList.remove('new__input');
