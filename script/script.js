@@ -92,64 +92,89 @@ const render = () => {
         </li>
       `;
     });
-    const list = document.getElementsByClassName("item");
+    const list = document.querySelectorAll(".item");
+
+    let touchstart;
+    let touchend;
 
     for (let item of list) {
-        item.addEventListener("dragstart", dragStart);
-        item.addEventListener("dragend", dragEnd);
-        item.addEventListener("dragover", dragOver);
-        item.addEventListener("dragleave", dragLeave);
-        item.addEventListener("drop", drop);
+        item.addEventListener("dragstart", (e) => {
+            const currentId = e.target.closest(".item")?.id;
+            dragIndex = todos.findIndex((v) => v.id == currentId);
+            e.target.closest(".item").style.cssText =
+                "opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);";
 
-        // Touch events for mobile devices
-        item.addEventListener("touchstart", dragStart);
-        item.addEventListener("touchend", dragEnd);
-        item.addEventListener("touchmove", dragOver);
-    }
+            console.log("start", currentId);
+        });
 
-    let dragIndex;
-    function dragStart(e) {
-        const currentId = e.target.closest(".item")?.id;
-        dragIndex = todos.findIndex((v) => v.id == currentId);
-        e.target.closest(
-            ".item"
-        ).style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
+        item.addEventListener("dragend", (e) => {
+            e.preventDefault();
+            e.target.closest(".item").style.cssText =
+                "opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);";
+        });
 
-        console.log("start", currentId);
-    }
+        item.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            e.target.closest(".item").style.cssText =
+                "border-bottom:2px solid #3498db;transform: scale(1.05);";
+        });
 
-    function dragEnd(e) {
-        e.preventDefault();
-        e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
-    }
+        item.addEventListener("dragleave", (e) => {
+            console.log("leave");
+            e.target.closest(".item").style.cssText =
+                "border-bottom:1px solid #ccc;transform: scale(1);";
+        });
 
-    function dragOver(e) {
-        e.preventDefault();
-        e.target.closest(
-            ".item"
-        ).style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
-    }
+        item.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const currentId = e.target.closest(".item")?.id;
+            const dropIndex = todos.findIndex((v) => v.id == currentId);
 
-    function dragLeave(e) {
-        console.log("leave");
-        e.target.closest(
-            ".item"
-        ).style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
-    }
+            let a = todos.splice(dragIndex, 1);
+            todos.splice(dropIndex, 0, a[0]);
 
-    function drop(e) {
-        e.preventDefault();
-        const currentId = e.target.closest(".item")?.id;
-        const dropIndex = todos.findIndex((v) => v.id == currentId);
+            // const temp = todos[dragIndex];
+            // todos[dragIndex] = todos[dropIndex];
+            // todos[dropIndex] = temp;
 
-        let a = todos.splice(dragIndex, 1);
-        todos.splice(dropIndex, 0, a[0]);
+            render();
+        });
 
-        // const temp = todos[dragIndex];
-        // todos[dragIndex] = todos[dropIndex];
-        // todos[dropIndex] = temp;
 
-        render();
+        // Add touch events for mobile devices
+        item.addEventListener('touchstart', (e) => {
+            touchstart = e.changedTouches[0].screenY;
+        });
+
+        item.addEventListener('touchend', (e) => {
+            touchend = e.changedTouches[0].screenY;
+            handleGesture();
+        });
+
+        function handleGesture() {
+            const swipedistance = touchend - touchstart;
+            const absSwipedistance = Math.abs(swipedistance);
+
+            if (swipedistance < 0 && absSwipedistance > 40) {
+                //Swiped upwards
+                const currentId = e.target.closest(".item")?.id;
+                dragIndex = todos.findIndex((v) => v.id == currentId);
+
+                let a = todos.splice(dragIndex, 1);
+                todos.splice(dragIndex - 1, 0, a[0]);
+
+                render();
+            } else if (swipedistance > 0 && absSwipedistance > 40) {
+                //Swiped downwards
+                const currentId = e.target.closest(".item")?.id;
+                dragIndex = todos.findIndex((v) => v.id == currentId);
+
+                let a = todos.splice(dragIndex, 1);
+                todos.splice(dragIndex + 1, 0, a[0]);
+
+                render();
+            }
+        }
     }
 }
 
