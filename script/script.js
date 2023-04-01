@@ -129,67 +129,64 @@ const render = () => {
         });
 
 
-        const list = document.getElementsByClassName("item");
+
+        const list = document.querySelectorAll('.item');
         let dragIndex = null;
         let dropIndex = null;
         let prevY = null;
 
         for (let item of list) {
-            item.addEventListener("touchstart", (e) => {
-                const currentId = e.target.closest(".item").id;
+            item.addEventListener('touchstart', (e) => {
+                const currentId = e.target.closest('.item').id;
                 dragIndex = [...list].findIndex((element) => element.id === currentId);
-
-                const style = e.target.closest(".item").style;
 
                 const touchY = e.changedTouches[0].clientY;
                 prevY = touchY;
             });
 
-            item.addEventListener("touchmove", (e) => {
+            item.addEventListener('touchmove', (e) => {
                 e.preventDefault();
+
+                if (e.target.tagName === 'BUTTON') {
+                    return; // Skip the drag and drop functionality for buttons
+                }
+
                 const touchY = e.changedTouches[0].clientY;
 
                 if (prevY !== null) {
                     const deltaY = touchY - prevY;
-                    const transformValue = e.target.closest(".item").style.transform.replace(
+                    const transformValue = e.target.closest('.item').style.transform.replace(
                         /translateY\((.*?)px\)/,
-                        ""
+                        ''
                     );
-                    const currentY = transformValue === "" ? 0 : parseInt(transformValue);
+                    const currentY = transformValue === '' ? 0 : parseInt(transformValue);
                     const newY = currentY + deltaY;
-                    const style = e.target.closest(".item").style;
-                    style.transform = "translateY(" + newY + "px)";
+                    const style = e.target.closest('.item').style;
+                    style.transform = 'translateY(' + newY + 'px)';
                 }
                 prevY = touchY;
 
-                let index = -1;
-                let smallestDistance = Infinity;
-                for (let i = 0; i < list.length; i++) {
-                    const item = list[i];
-                    if (item === e.target.closest(".item")) continue;
-
-                    const itemCenterY = item.offsetTop + item.offsetHeight / 2;
-                    const distanceToCenter = Math.abs(itemCenterY - e.changedTouches[0].clientY);
-
-                    if (distanceToCenter < smallestDistance) {
-                        smallestDistance = distanceToCenter;
-                        index = i;
+                const elements = document.elementsFromPoint(
+                    e.changedTouches[0].clientX,
+                    touchY
+                );
+                elements.forEach((element) => {
+                    if (element.classList.contains('item')) {
+                        dropIndex = [...list].indexOf(element);
                     }
-                }
-
-                if (index !== -1) {
-                    const style = list[index].style;
-                    dropIndex = index;
-
-                    style.transform = "translateY(" + (prevY < touchY ? "+60px" : "-60px") + ")";
-                }
+                });
             });
 
-            item.addEventListener("touchend", (e) => {
+            item.addEventListener('touchend', (e) => {
                 e.preventDefault();
-                const style = e.target.closest(".item").style;
 
-                style.transform = "none";
+                if (e.target.tagName === 'BUTTON') {
+                    return; // Skip the drag and drop functionality for buttons
+                }
+
+                const style = e.target.closest('.item').style;
+
+                style.transform = 'none';
 
                 if (dragIndex !== null && dropIndex !== null) {
                     const listArray = [...list];
@@ -208,6 +205,8 @@ const render = () => {
                 prevY = null;
             });
         }
+
+
 
     }
 }
