@@ -102,7 +102,7 @@ const render = () => {
         item.addEventListener("dragstart", (e) => {
             const currentId = e.target.closest(".item")?.id;
             dragIndex = todos.findIndex((v) => v.id == currentId);
-            e.target.closest(".item").style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
+            e.target.closest(".item").style.cssText = `opacity:0.8;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
             console.log("start", currentId);
         });
 
@@ -131,34 +131,29 @@ const render = () => {
 
             render();
         });
-
-        var move = confirm("Do you want to move?");
-        if (move) {
-            item.querySelectorAll("button").forEach(function (button) {
-                button.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    console.log("Button Clicked");
-                    // Your code logic here
-                });
-            });
-
-            item.addEventListener("touchstart", function (e) {
-                item.dispatchEvent(new Event("dragstart"));
-            });
-
-            item.addEventListener("touchend", function (e) {
-                item.dispatchEvent(new Event("dragend"));
-            });
-
-            item.addEventListener("touchmove", function (e) {
+        item.querySelectorAll("button").forEach(button => {
+            button.addEventListener("click", e => {
                 e.preventDefault();
-                item.dispatchEvent(new Event("dragover"));
+                console.log("Button Clicked");
+                // Your code logic here
             });
-        } else {
-            console.log("Item not moved.")
-        }
+        });
 
+        item.addEventListener("touchstart", e =>
+
+            item.dispatchEvent(new Event("dragstart")));
+
+        item.addEventListener("touchend", e =>
+
+            item.dispatchEvent(new Event("dragend")));
+
+        item.addEventListener("touchmove", e => {
+            e.preventDefault();
+            item.dispatchEvent(new Event("dragover"));
+        });
     }
+
+
 }
 
 
