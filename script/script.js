@@ -159,30 +159,26 @@ const render = () => {
     for (let item of list) {
         item.addEventListener("dragstart", (e) => {
             const currentId = e.target.closest(".item")?.id;
-            dragIndex = todos.findIndex((v) => v.id === currentId);
-            e.target.closest(".item").classList.add("dragging");
+            dragIndex = todos.findIndex((v) => v.id == currentId);
             console.log("start", currentId);
         });
 
         item.addEventListener("dragend", (e) => {
             e.preventDefault();
-            e.target.closest(".item").classList.remove("dragging");
         });
 
         item.addEventListener("dragover", (e) => {
             e.preventDefault();
-            e.target.closest(".item").classList.add("dragover");
         });
 
         item.addEventListener("dragleave", (e) => {
             console.log("leave");
-            e.target.closest(".item").classList.remove("dragover");
         });
 
         item.addEventListener("drop", (e) => {
             e.preventDefault();
             const currentId = e.target.closest(".item")?.id;
-            const dropIndex = todos.findIndex((v) => v.id === currentId);
+            const dropIndex = todos.findIndex((v) => v.id == currentId);
 
             let a = todos.splice(dragIndex, 1);
             todos.splice(dropIndex, 0, a[0]);
@@ -198,22 +194,14 @@ const render = () => {
             });
         });
 
-        let touchStartPos, touchEndPos;
-
         item.addEventListener("touchstart", function (e) {
-            touchStartPos = e.touches[0].clientY;
-            item.dispatchEvent(new Event("dragstart"));
+            window.setTimeout(function () {
+                item.dispatchEvent(new Event("dragstart"));
+            }, 2000);
         });
 
         item.addEventListener("touchend", function (e) {
-            touchEndPos = e.changedTouches[0].clientY;
-            if (Math.abs(touchEndPos - touchStartPos) < 20) {
-                item.querySelectorAll("button").forEach(function (button) {
-                    button.click();
-                });
-            }
             item.dispatchEvent(new Event("dragend"));
-            item.dispatchEvent(new Event("drop"));
         });
 
         item.addEventListener("touchmove", function (e) {
@@ -329,9 +317,6 @@ const render = () => {
 
     //         render();
     //     });
-
-
-
 
 
 
