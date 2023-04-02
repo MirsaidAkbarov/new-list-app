@@ -332,6 +332,76 @@ const render = () => {
 
 
 
+
+
+
+    // const list = document.getElementsByClassName("item");
+    // let dragIndex = null;
+    // let dropIndex = null;
+
+    // for (let item of list) {
+    //     item.addEventListener("touchstart", (e) => {
+    //         const currentId = e.target.closest(".item").id;
+    //         dragIndex = [...list].findIndex((element) => element.id === currentId);
+
+    //         const style = e.target.closest(".item").style;
+
+    //   //     const touchY = e.changedTouches[0].clientY;
+    //    //     prevY = touchY;
+    //    // });
+
+    //     item.addEventListener("touchmove", (e) => {
+    //         e.preventDefault();
+    //         const touchY = e.changedTouches[0].clientY;
+
+    //         if (prevY !== null && e.target.matches(".item")) {
+    //             const deltaY = touchY - prevY;
+    //             const transformValue = e.target.closest(".item").style.transform.replace(
+    //                 /translateY\((.*?)px\)/,
+    //                 ""
+    //             );
+    //             const currentY = transformValue === "" ? 0 : parseInt(transformValue);
+    //             const newY = currentY + deltaY;
+    //             const style = e.target.closest(".item").style;
+    //             style.transform = "translateY(" + newY + "px)";
+    //         }
+    //         prevY = touchY;
+
+    //         const elements = document.elementsFromPoint(
+    //             e.changedTouches[0].clientX,
+    //             touchY
+    //         );
+    //         elements.forEach((element) => {
+    //             if (element.matches(".item")) {
+    //                 const style = element.style;
+    //                 dropIndex = [...list].indexOf(element);
+    //             }
+    //         });
+    //     });
+
+    //     item.addEventListener("touchend", (e) => {
+    //         e.preventDefault();
+    //         const style = e.target.closest(".item").style;
+
+    //         style.transform = "none";
+
+    //         if (dragIndex !== null && dropIndex !== null) {
+    //             const listArray = [...list];
+    //             const dragItem = listArray[dragIndex];
+    //             const dropItem = listArray[dropIndex];
+    //             listArray[dragIndex] = dropItem;
+    //             listArray[dropIndex] = dragItem;
+
+    //             const parent = dropItem.parentNode;
+    //             const nextSibling = dropItem.nextSibling;
+
+    //             parent.insertBefore(dragItem, nextSibling);
+    //         }
+
+    //         dropIndex = null;
+    //         prevY = null;
+    //     });
+    // }
 }
 
 
