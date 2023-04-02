@@ -13,6 +13,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        transition: 2s;
     }
 
     img {
@@ -53,6 +55,7 @@
 
 
     .main {
+        overflow-wrap: normal;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -96,8 +99,8 @@
         border: 1px solid #E5E9EB;
         border-radius: 6px;
         padding-left: 23px;
-        box-shadow: 0px 0px 20px rgb(0 0 0 / 90%);
-
+        // box-shadow: 0px 0px 20px rgb(0 0 0 / 90%);
+        box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
     }
 
 
@@ -114,23 +117,33 @@
         width: 19%;
         height: 40px;
         position: relative;
-        box-shadow: -1px 0px 20px rgb(0 0 0 / 60%);
+        // box-shadow: -1px 0px 20px rgb(0 0 0 / 60%);
+        // box-shadow: 2px 2px 5px #666;
+        box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+
+
         font-family: 'Edu NSW ACT Foundation', cursive;
         font-size: 20px;
         letter-spacing: 5px;
         background-image: url("/images/istockphoto-1415858611-170667a.jpg");
-        opacity: 1;
+        opacity: 0.95;
         background-repeat: no-repeat;
         background-size: 100%;
 
+
+
+
         &:hover {
             // opacity: 0.7;
+
+
         }
 
         &:active {
-            opacity: 1;
+            opacity: 0.8;
             background-image: url("/images/istockphoto-915303592-612x612.jpg");
-            box-shadow: -1px 0px 30px rgb(0 0 0 / 90%);
+            // box-shadow: -1px 0px 30px rgb(0 0 0 / 90%);
+            box-shadow: 0px 0px 10px #000000;
 
             // background-blend-mode: multiply;
         }
@@ -143,11 +156,10 @@
         flex-direction: column;
         gap: 5px;
         height: 248px;
-        overflow: scroll;
         align-items: center;
-
-
-
+        overflow-x: hidden;
+        overflow-y: scroll;
+        overflow-wrap: normal;
 
         &::-webkit-scrollbar {
 
@@ -172,7 +184,6 @@
         // background-image: url("/images/natural-wood-background-beautiful-plank-texture-beige-pattern-light-wooden-221550515.jpg");
         background-size: 100%;
         transition: 0.4s;
-
 
         &:hover {
             // transform: scaleY(1.2);
@@ -319,6 +330,9 @@
 
 
 
+
+
+
     .item {
         position: relative;
         display: flex;
@@ -327,7 +341,11 @@
         border-radius: 5px;
         box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
         background-color: #fff;
-        padding: 10px;
+        // padding: 10px;
+        padding-left: 5px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        padding-right: 5px;
         transition: all 0.2s ease-in-out;
         width: 100%;
         justify-content: space-between;
@@ -406,10 +424,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 60px;
-        height: 40px;
+        width: 68px;
+        // height: 40px;
         background-color: #1d262c;
         transform: translateY(0);
+        box-shadow: 0px 0px 10px #000000;
+
     }
 
 
@@ -565,11 +585,21 @@
             'opsz' 40
     }
 
+    .item {
+        transition: background-color 0.5s ease-in-out;
 
+    }
+
+
+    .add {}
 
 
 
     @media (max-width: 768px) {
+
+        .wrapper {
+            transition: none;
+        }
 
         .all__main {
             width: 350px;
@@ -588,12 +618,26 @@
             padding-left: 15px;
         }
 
+
+        .order {
+            font-size: 20px;
+            font-weight: 250;
+        }
+
         .add {}
 
+        .all {
+            font-weight: 450;
+            font-size: 18.5px;
+        }
     }
 
 
     @media (max-width: 480px) {
+        .wrapper {
+            transition: none;
+        }
+
         .main {
             width: 100% !important;
 

@@ -141,9 +141,9 @@ const render = () => {
 
         //         const style = e.target.closest(".item").style;
 
-        //         const touchY = e.changedTouches[0].clientY;
-        //         prevY = touchY;
-        //     });
+        //   //     const touchY = e.changedTouches[0].clientY;
+        //    //     prevY = touchY;
+        //    // });
 
         //     item.addEventListener("touchmove", (e) => {
         //         e.preventDefault();
@@ -328,9 +328,14 @@ items.addEventListener("click", (e) => {
                 todos[i].todo = currentInput.value;
             }
         }
-
+        currentItem.style.backgroundColor = 'green';
+        setTimeout(() => {
+            currentItem.style.backgroundColor = '';
+        }, 3000);
 
         render();
+
+
     }
 
 
@@ -423,7 +428,7 @@ const images = [
 let i = 0;
 
 function changeImage() {
-    wrapper.style.transition = `2s`
+    // wrapper.style.transition = `2s`
     wrapper.style.background = `url(images/${images[i]}) no-repeat center center fixed`;
     wrapper.style.mozBackgroundSize = "cover";
     wrapper.style.oBackgroundSize = "cover";
@@ -446,3 +451,45 @@ changeImage();
 
 
 
+// items.addEventListener("click", (e) => {
+//     const currentId = e.target.closest(".item")?.id;
+//     const currentItem = e.target.closest(".item");
+
+//     const selector = (classname) => `#${currentId} .${classname} `
+//     const saveButton = document.querySelector(selector("save"));
+//     const cancelButton = document.querySelector(selector("cancel"));
+//     const editButton = document.querySelector(selector("edit"));
+//     const currentInput = document.querySelector(selector("todo"));
+//     const deleteButton = document.querySelector(selector("delete"));
+
+
+
+
+
+
+//     if (e.target.closest(".save")) {
+
+//         saveButton.style.display = "none";
+//         cancelButton.style.display = "none";
+//         editButton.style.display = "block";
+//         currentInput.setAttribute("disabled", "");
+
+//         // todos = todos.map((e) =>
+//         //     e.id === currentId ? { ...e, todo: currentInput.value } : e
+//         // );
+
+//         for (let i = 0; i < todos.length; i++) {
+//             if (todos[i].id === currentId) {
+//                 todos[i].todo = currentInput.value;
+//             }
+//         }
+
+//         currentItem.style.backgroundColor = "green";
+//         setTimeout(() => {
+//             currentItem.style.backgroundColor = "";
+//         }, 3000);
+
+//         render();
+//     }
+
+// })
