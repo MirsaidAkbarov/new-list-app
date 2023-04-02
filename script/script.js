@@ -91,6 +91,67 @@ const render = () => {
       `;
     });
 
+    // const list = document.querySelectorAll(".item");
+
+    // let dragIndex = -1;
+
+    // for (let item of list) {
+    //     item.addEventListener("dragstart", (e) => {
+    //         const currentId = e.target.closest(".item")?.id;
+    //         dragIndex = todos.findIndex((v) => v.id == currentId);
+    //         e.target.closest(".item").style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
+    //         console.log("start", currentId);
+    //     });
+
+    //     item.addEventListener("dragend", (e) => {
+    //         e.preventDefault();
+    //         e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
+    //     });
+
+    //     item.addEventListener("dragover", (e) => {
+    //         e.preventDefault();
+    //         e.target.closest(".item").style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
+    //     });
+
+    //     item.addEventListener("dragleave", (e) => {
+    //         console.log("leave");
+    //         e.target.closest(".item").style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
+    //     });
+
+    //     item.addEventListener("drop", (e) => {
+    //         e.preventDefault();
+    //         const currentId = e.target.closest(".item")?.id;
+    //         const dropIndex = todos.findIndex((v) => v.id == currentId);
+
+    //         let a = todos.splice(dragIndex, 1);
+    //         todos.splice(dropIndex, 0, a[0]);
+
+    //         render();
+    //     });
+
+    //     item.querySelectorAll("button").forEach(function (button) {
+    //         button.addEventListener("click", function (e) {
+    //             e.preventDefault();
+    //             console.log("Button Clicked");
+    //             // Your code logic here
+    //         });
+    //     });
+
+    //     item.addEventListener("touchstart", function (e) {
+    //         item.dispatchEvent(new Event("dragstart"));
+    //     });
+
+    //     item.addEventListener("touchend", function (e) {
+    //         item.dispatchEvent(new Event("dragend"));
+    //     });
+
+    //     item.addEventListener("touchmove", function (e) {
+    //         e.preventDefault();
+    //         item.dispatchEvent(new Event("dragover"));
+    //     });
+    // }
+
+
     const list = document.querySelectorAll(".item");
 
     let dragIndex = -1;
@@ -98,30 +159,30 @@ const render = () => {
     for (let item of list) {
         item.addEventListener("dragstart", (e) => {
             const currentId = e.target.closest(".item")?.id;
-            dragIndex = todos.findIndex((v) => v.id == currentId);
-            e.target.closest(".item").style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
+            dragIndex = todos.findIndex((v) => v.id === currentId);
+            e.target.closest(".item").classList.add("dragging");
             console.log("start", currentId);
         });
 
         item.addEventListener("dragend", (e) => {
             e.preventDefault();
-            e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
+            e.target.closest(".item").classList.remove("dragging");
         });
 
         item.addEventListener("dragover", (e) => {
             e.preventDefault();
-            e.target.closest(".item").style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
+            e.target.closest(".item").classList.add("dragover");
         });
 
         item.addEventListener("dragleave", (e) => {
             console.log("leave");
-            e.target.closest(".item").style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
+            e.target.closest(".item").classList.remove("dragover");
         });
 
         item.addEventListener("drop", (e) => {
             e.preventDefault();
             const currentId = e.target.closest(".item")?.id;
-            const dropIndex = todos.findIndex((v) => v.id == currentId);
+            const dropIndex = todos.findIndex((v) => v.id === currentId);
 
             let a = todos.splice(dragIndex, 1);
             todos.splice(dropIndex, 0, a[0]);
@@ -137,12 +198,22 @@ const render = () => {
             });
         });
 
+        let touchStartPos, touchEndPos;
+
         item.addEventListener("touchstart", function (e) {
+            touchStartPos = e.touches[0].clientY;
             item.dispatchEvent(new Event("dragstart"));
         });
 
         item.addEventListener("touchend", function (e) {
+            touchEndPos = e.changedTouches[0].clientY;
+            if (Math.abs(touchEndPos - touchStartPos) < 20) {
+                item.querySelectorAll("button").forEach(function (button) {
+                    button.click();
+                });
+            }
             item.dispatchEvent(new Event("dragend"));
+            item.dispatchEvent(new Event("drop"));
         });
 
         item.addEventListener("touchmove", function (e) {
@@ -261,73 +332,6 @@ const render = () => {
 
 
 
-    // const list = document.getElementsByClassName("item");
-    // let dragIndex = null;
-    // let dropIndex = null;
-
-    // for (let item of list) {
-    //     item.addEventListener("touchstart", (e) => {
-    //         const currentId = e.target.closest(".item").id;
-    //         dragIndex = [...list].findIndex((element) => element.id === currentId);
-
-    //         const style = e.target.closest(".item").style;
-
-    //   //     const touchY = e.changedTouches[0].clientY;
-    //    //     prevY = touchY;
-    //    // });
-
-    //     item.addEventListener("touchmove", (e) => {
-    //         e.preventDefault();
-    //         const touchY = e.changedTouches[0].clientY;
-
-    //         if (prevY !== null && e.target.matches(".item")) {
-    //             const deltaY = touchY - prevY;
-    //             const transformValue = e.target.closest(".item").style.transform.replace(
-    //                 /translateY\((.*?)px\)/,
-    //                 ""
-    //             );
-    //             const currentY = transformValue === "" ? 0 : parseInt(transformValue);
-    //             const newY = currentY + deltaY;
-    //             const style = e.target.closest(".item").style;
-    //             style.transform = "translateY(" + newY + "px)";
-    //         }
-    //         prevY = touchY;
-
-    //         const elements = document.elementsFromPoint(
-    //             e.changedTouches[0].clientX,
-    //             touchY
-    //         );
-    //         elements.forEach((element) => {
-    //             if (element.matches(".item")) {
-    //                 const style = element.style;
-    //                 dropIndex = [...list].indexOf(element);
-    //             }
-    //         });
-    //     });
-
-    //     item.addEventListener("touchend", (e) => {
-    //         e.preventDefault();
-    //         const style = e.target.closest(".item").style;
-
-    //         style.transform = "none";
-
-    //         if (dragIndex !== null && dropIndex !== null) {
-    //             const listArray = [...list];
-    //             const dragItem = listArray[dragIndex];
-    //             const dropItem = listArray[dropIndex];
-    //             listArray[dragIndex] = dropItem;
-    //             listArray[dropIndex] = dragItem;
-
-    //             const parent = dropItem.parentNode;
-    //             const nextSibling = dropItem.nextSibling;
-
-    //             parent.insertBefore(dragItem, nextSibling);
-    //         }
-
-    //         dropIndex = null;
-    //         prevY = null;
-    //     });
-    // }
 }
 
 
