@@ -131,29 +131,34 @@ const render = () => {
 
             render();
         });
-        item.querySelectorAll("button").forEach(button => {
-            button.addEventListener("click", e => {
-                e.preventDefault();
-                console.log("Button Clicked");
-                // Your code logic here
+
+        var move = confirm("Do you want to move?");
+        if (move) {
+            item.querySelectorAll("button").forEach(function (button) {
+                button.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    console.log("Button Clicked");
+                    // Your code logic here
+                });
             });
-        });
 
-        item.addEventListener("touchstart", e =>
+            item.addEventListener("touchstart", function (e) {
+                item.dispatchEvent(new Event("dragstart"));
+            });
 
-            item.dispatchEvent(new Event("dragstart")));
+            item.addEventListener("touchend", function (e) {
+                item.dispatchEvent(new Event("dragend"));
+            });
 
-        item.addEventListener("touchend", e =>
+            item.addEventListener("touchmove", function (e) {
+                e.preventDefault();
+                item.dispatchEvent(new Event("dragover"));
+            });
+        } else {
+            console.log("Item not moved.")
+        }
 
-            item.dispatchEvent(new Event("dragend")));
-
-        item.addEventListener("touchmove", e => {
-            e.preventDefault();
-            item.dispatchEvent(new Event("dragover"));
-        });
     }
-
-
 }
 
 
