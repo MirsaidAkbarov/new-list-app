@@ -91,15 +91,15 @@ const render = () => {
       `;
     });
 
+    const list = document.querySelectorAll(".item");
 
-    const list = document.getElementsByClassName("item");
+    let dragIndex = -1;
 
     for (let item of list) {
         item.addEventListener("dragstart", (e) => {
             const currentId = e.target.closest(".item")?.id;
             dragIndex = todos.findIndex((v) => v.id == currentId);
             e.target.closest(".item").style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
-
             console.log("start", currentId);
         });
 
@@ -129,39 +129,98 @@ const render = () => {
             render();
         });
 
-        // Add touch event listeners
-        item.addEventListener("touchstart", (e) => {
-            const currentId = e.target.closest(".item")?.id;
-            dragIndex = todos.findIndex((v) => v.id == currentId);
-            e.target.closest(".item").style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
-
-            console.log("start", currentId);
+        item.querySelectorAll("button").forEach(function (button) {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+                console.log("Button Clicked");
+                // Your code logic here
+            });
         });
 
-        item.addEventListener("touchend", (e) => {
+        item.addEventListener("touchstart", function (e) {
+            item.dispatchEvent(new Event("dragstart"));
+        });
+
+        item.addEventListener("touchend", function (e) {
+            item.dispatchEvent(new Event("dragend"));
+        });
+
+        item.addEventListener("touchmove", function (e) {
             e.preventDefault();
-            e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
-        });
-
-        item.addEventListener("touchmove", (e) => {
-            e.preventDefault();
-        });
-
-        item.addEventListener("touchenter", (e) => {
-            e.preventDefault();
-            e.target.closest(".item").style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
-        });
-
-        item.addEventListener("touchleave", (e) => {
-            console.log("leave");
-            e.target.closest(".item").style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
-        });
-
-        item.addEventListener("touchcancel", (e) => {
-            console.log("cancel");
-            e.target.closest(".item").style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
+            item.dispatchEvent(new Event("dragover"));
         });
     }
+
+    // const list = document.getElementsByClassName("item");
+
+    // for (let item of list) {
+    //     item.addEventListener("dragstart", (e) => {
+    //         const currentId = e.target.closest(".item")?.id;
+    //         dragIndex = todos.findIndex((v) => v.id == currentId);
+    //         e.target.closest(".item").style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
+
+    //         console.log("start", currentId);
+    //     });
+
+    //     item.addEventListener("dragend", (e) => {
+    //         e.preventDefault();
+    //         e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
+    //     });
+
+    //     item.addEventListener("dragover", (e) => {
+    //         e.preventDefault();
+    //         e.target.closest(".item").style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
+    //     });
+
+    //     item.addEventListener("dragleave", (e) => {
+    //         console.log("leave");
+    //         e.target.closest(".item").style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
+    //     });
+
+    //     item.addEventListener("drop", (e) => {
+    //         e.preventDefault();
+    //         const currentId = e.target.closest(".item")?.id;
+    //         const dropIndex = todos.findIndex((v) => v.id == currentId);
+
+    //         let a = todos.splice(dragIndex, 1);
+    //         todos.splice(dropIndex, 0, a[0]);
+
+    //         render();
+    //     });
+
+    //     // Add touch event listeners
+    //     item.addEventListener("touchstart", (e) => {
+    //         const currentId = e.target.closest(".item")?.id;
+    //         dragIndex = todos.findIndex((v) => v.id == currentId);
+    //         e.target.closest(".item").style.cssText = `opacity:0.5;border:2px solid #3498db;background-color:#f1f1f1;transform: scale(1.05);`;
+
+    //         console.log("start", currentId);
+    //     });
+
+    //     item.addEventListener("touchend", (e) => {
+    //         e.preventDefault();
+    //         e.target.closest(".item").style.cssText = `opacity:1;border:1px solid #ccc;background-color: #fff;transform: scale(1);`;
+    //     });
+
+    //     item.addEventListener("touchmove", (e) => {
+    //         e.preventDefault();
+    //     });
+
+    //     item.addEventListener("touchenter", (e) => {
+    //         e.preventDefault();
+    //         e.target.closest(".item").style.cssText = `border-bottom:2px solid #3498db;transform: scale(1.05);`;
+    //     });
+
+    //     item.addEventListener("touchleave", (e) => {
+    //         console.log("leave");
+    //         e.target.closest(".item").style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
+    //     });
+
+    //     item.addEventListener("touchcancel", (e) => {
+    //         console.log("cancel");
+    //         e.target.closest(".item").style.cssText = `border-bottom:1px solid #ccc;transform: scale(1);`;
+    //     });
+    // }
 
     // const list = document.getElementsByClassName("item");
 
