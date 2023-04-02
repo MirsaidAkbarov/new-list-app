@@ -151,7 +151,6 @@ const render = () => {
     //     });
     // }
 
-
     const list = document.querySelectorAll(".item");
 
     let dragIndex = -1;
@@ -209,7 +208,6 @@ const render = () => {
             item.dispatchEvent(new Event("dragover"));
         });
     }
-
     // const list = document.getElementsByClassName("item");
 
     // for (let item of list) {
